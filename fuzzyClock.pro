@@ -5,19 +5,23 @@ CONFIG += no_batch
 QT += core gui \
     widgets
 
-LIBS += -lwtsapi32
-LIBS += -luser32
+LIBS += \
+        -lwtsapi32 \
+        -luser32
 
+INCLUDEPATH += \
+        ..\rxqt \
+        ..\rxqt\rxcpp
 
 HEADERS += \
-    fuzzyClockWindow.h \
+        fuzzyClockWindow.h \
 	fuzzyClock.h
 
 SOURCES += \
-    fuzzyClockWindow.cpp \
+        fuzzyClockWindow.cpp \
 	fuzzyClock.cpp \
-    main.cpp
+        main.cpp
 
 DISTFILES += \
-    style.css
+        style.css
 

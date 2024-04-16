@@ -1,7 +1,7 @@
+// #define QT_NO_DEBUG_OUTPUT
 #include <stdio.h>
 #include <QtGui>
 #include <QtWidgets>
-//#include <QtWidgets/QApplication>
 #include <Windows.h>
 #include <WtsApi32.h>
 #include <QDebug>
@@ -9,10 +9,34 @@
 #include "fuzzyClockWindow.h"
 #include "fuzzyClock.h"
 
-fuzzyClockWindow::fuzzyClockWindow() : m("HKEY_CURRENT_USER\\SOFTWARE\\0x9.io\\FuzzyClock", QSettings::NativeFormat), fuzzyClock(this->winId() )
+#include <functional>
+#include "rxqt.hpp"
+#include "rx.hpp"
+
+int fuzzyClockWindow::DisplayTime(int a,int b)
 {
+    fuzzyClock.DisplayTime();
+}
+
+fuzzyClockWindow::fuzzyClockWindow() : m("HKEY_CURRENT_USER\\SOFTWARE\\0x1e.dev\\FuzzyClock", QSettings::NativeFormat), fuzzyClock(this->winId() )
+{
+    rxqt::from_event(this, QEvent::MouseButtonPress)
+        .subscribe([this](const QEvent* e) {
+        auto me = static_cast<const QMouseEvent*>(e);
+        mpos = me->pos();                           });
+
+    /*std::function<int(int,int)> funcWrapper;
+    funcWrapper = DisplayTime(1, 2);
+
+    auto scheduler = rxcpp::observe_on_new_thread();
+    auto period = std::chrono::milliseconds(1000);
+    auto counter = rxcpp::observable<>::interval(period, scheduler);
+    counter.subscribe( [&](){ DisplayTime(1,2); },
+                       [](std::exception_ptr){} ); */
+
 
     ::SetTimer((HWND)this->winId(), ID_TIMER, 1000, (TIMERPROC) NULL);
+
     WTSRegisterSessionNotification((HWND)this->winId(), NOTIFY_FOR_THIS_SESSION);
     fuzzyClock.SetLabel(new QLabel(this));
     fuzzyClock.SetWindow(this);
@@ -38,9 +62,11 @@ void fuzzyClockWindow::contextMenuEvent(QContextMenuEvent *event)
     menu.exec(event->globalPos());
 }
 
+/*  replaced (now rxCPP)
 void fuzzyClockWindow::mousePressEvent(QMouseEvent *event){
     mpos = event->pos();
 }
+*/
 
 // Drag window without title
 void fuzzyClockWindow::mouseMoveEvent(QMouseEvent *event){
@@ -94,7 +120,7 @@ void fuzzyClockWindow::createActions()
 void fuzzyClockWindow::about()
 {
     QMessageBox::about(this, tr("О \"Неточных\" часах..."),
-            tr("\"Неточные\" часы v3.1,        <br/> (ремейк версии 2.1  "
+            tr("\"Неточные\" часы v3.1.2,        <br/> (ремейк версии 2.1  "
                "от 12.01.2004)<br/>www.0x9.io"));
 }
 

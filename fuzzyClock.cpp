@@ -44,7 +44,6 @@ void fuzzyClock::DisplayTime(){
 
 //    if (12 == getHourNow(24) && 0 == getMinuteNow())
 //        timeToShow = "Полдень";
-
 //    if (0 == getHourNow(24) && 0 == getMinuteNow())
 //        timeToShow = "Полночь";
 
@@ -69,9 +68,9 @@ void fuzzyClock::SetWindow(QWidget *pWindow){
     m_window = pWindow;
 }
 
-fuzzyClock::fuzzyClock(WId pWindow){}
+fuzzyClock::fuzzyClock(WId pWindow) {}
 
-fuzzyClock::~fuzzyClock(){}
+fuzzyClock::~fuzzyClock() {}
 
 void fuzzyClock::readArrays(){
     QFile fuzzy_arrays("fuzzy.conf");

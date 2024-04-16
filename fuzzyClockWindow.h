@@ -15,7 +15,11 @@ class fuzzyClockWindow : public QWidget
 public:
     fuzzyClockWindow();
     ~fuzzyClockWindow();
-    void mousePressEvent(QMouseEvent *event);
+    QPoint mpos;
+    int DisplayTime(int a,int b);
+    /*  replaced by rxQt:
+        void mousePressEvent(QMouseEvent *event);
+    */
     void mouseMoveEvent(QMouseEvent *event);
 protected:
     bool nativeEvent(const QByteArray &eventType, void *message, long *result);
@@ -24,7 +28,6 @@ private slots:
     void about();
     void exit();
 private:
-    QPoint mpos;
     fuzzyClock fuzzyClock;
     void createActions();
     QAction *aboutAct;
