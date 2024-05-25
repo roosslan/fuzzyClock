@@ -35,13 +35,13 @@ void fuzzyClock::SetLabel(QLabel *timeLabel)
 
 void fuzzyClock::DisplayTime()
 {
-    readArrays();
-
     int actMinute = getMinuteNow();
     hourToUse = getHourNow(12);
 
-    referMinPos = minuteRefer[getMinuteNow()]; // referMinPos = posRefer[getMinuteNow()];
-    timeToShow = fuzzyMinutes[referMinPos];
+    fuzzyHelper::instance()->readArrays();
+
+    referMinPos = vectMinuteRefer[actMinute];
+    timeToShow = vectMinutes[referMinPos];
 
     if (actMinute >= 0 && actMinute <= 2 && hourToUse != 0) // "Ровно ХХ"
         hourToUse--;
@@ -56,11 +56,11 @@ void fuzzyClock::DisplayTime()
     if (timeToShow.contains("%0"))
     {
         timeToShow.replace("%0", "%1");
-        timeToShow = QString(fuzzyMinutes[referMinPos]).arg(nominativeHour[hourToUse]);
+        timeToShow = vectMinutes[referMinPos].arg(vectNominativeHours[hourToUse]);
     }
     if (timeToShow.contains("%1")){
         //timeToShow.replace("%0", "%1");
-        timeToShow = QString(fuzzyMinutes[referMinPos]).arg(genitiveHour[hourToUse]);
+        timeToShow = vectMinutes[referMinPos].arg(vectGenitiveHours[hourToUse]);
     }
 
     m_label->setText(timeToShow);
@@ -74,20 +74,4 @@ void fuzzyClock::DisplayTime()
 void fuzzyClock::SetWindow(QWidget *pWindow)
 {
     m_window = pWindow;
-}
-
-fuzzyClock::fuzzyClock(WId pWindow) {}
-/* fuzzyClock::~fuzzyClock() {} */
-
-void fuzzyClock::readArrays()
-{
-
-    fuzzyHelper fuzzyHelp;
-
-    auto vectMinutes = fuzzyHelp.iniValueToVector<QString>("oldstyle", "minutes");
-    auto vectMinuteRefer = fuzzyHelp.iniValueToVector<int>("oldstyle", "minuteRefer");
-
-    std::copy(vectMinutes.begin(), vectMinutes.end(), fuzzyMinutes);
-    std::copy(vectMinuteRefer.begin(), vectMinuteRefer.end(), minuteRefer);
-
 }

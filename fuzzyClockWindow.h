@@ -11,7 +11,7 @@ constexpr int ID_TIMER = 100;
 class fuzzyClockWindow : public QWidget
 {
 private:
-    fuzzyClock fuzzyClock;
+//  fuzzyClock fuzzyClock;
 
     QAction *aboutAct;
     QAction *aboutQtAct;

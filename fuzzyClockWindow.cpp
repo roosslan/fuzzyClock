@@ -6,8 +6,9 @@
 #include <WtsApi32.h>
 #include <QDebug>
 #include <QLabel>
-#include "fuzzyClockWindow.h"
+
 #include "fuzzyClock.h"
+#include "fuzzyClockWindow.h"
 
 /*
 #include <functional>
@@ -20,7 +21,7 @@ void/int fuzzyClockWindow::DisplayTime(int a,int b)
 
 */
 
-fuzzyClockWindow::fuzzyClockWindow() : m_Settings("HKEY_CURRENT_USER\\SOFTWARE\\0x1e.dev\\FuzzyClock", QSettings::NativeFormat), fuzzyClock(this->winId() )
+fuzzyClockWindow::fuzzyClockWindow() : m_Settings("HKEY_CURRENT_USER\\SOFTWARE\\0x2.dev\\FuzzyClock", QSettings::NativeFormat) // , fuzzyClock(this->winId() )
 {
     this->setToolTip("TO DO: time as a hint");
 
@@ -47,8 +48,9 @@ fuzzyClockWindow::fuzzyClockWindow() : m_Settings("HKEY_CURRENT_USER\\SOFTWARE\\
     ::SetTimer((HWND)this->winId(), ID_TIMER, 1000, (TIMERPROC) NULL);
 
     WTSRegisterSessionNotification((HWND)this->winId(), NOTIFY_FOR_THIS_SESSION);
-    fuzzyClock.SetLabel(new QLabel(this));
-    fuzzyClock.SetWindow(this);
+
+    fuzzyClock::instance().SetLabel(new QLabel(this));
+    fuzzyClock::instance().SetWindow(this);
 
     // read registry
     int wTop = m_Settings.value("Top", 300).toInt();
@@ -100,7 +102,7 @@ bool fuzzyClockWindow::nativeEvent(const QByteArray &eventType, void *message, l
 
         }
       case WM_TIMER:
-        fuzzyClock.DisplayTime();
+        fuzzyClock::instance().DisplayTime();
     }
     return false;
 }
@@ -131,8 +133,8 @@ void fuzzyClockWindow::createActions()
 void fuzzyClockWindow::about()
 {
     QMessageBox::about(this, tr("О \"Неточных\" часах..."),
-            tr("\"Неточные\" часы v3.1.2,        <br/> (ремейк версии 2.1  "
-               "от 12.01.2004)<br/>www.0x9.io"));
+            tr("\"Неточные\" часы v3.1.3,        <br/> (ремейк версии 2.1  "
+               "от 12.01.2004)<br/>www.0x2.dev"));
 }
 
 void fuzzyClockWindow::exit()

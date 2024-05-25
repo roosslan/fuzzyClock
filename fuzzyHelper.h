@@ -1,18 +1,24 @@
+#include <memory>
 #include <vector>
 #include <QString>
 #include <QWidget>
 #include <QSettings>
 #include <QTextCodec>
 
-struct fuzzyHelper : public QWidget
-{    
+struct fuzzyHelper // : public QWidget
+{
+    static std::shared_ptr<fuzzyHelper> instance();
+
+    fuzzyHelper(fuzzyHelper const&)    = delete;
+    void operator=(fuzzyHelper const&) = delete;
+
     template<typename T>
     std::vector<T> iniValueToVector(QString groupName, QString keyName)
     {
         std::vector<T> vectRet;
 
         QSettings settings("fuzzy.conf", QSettings::IniFormat);
-       // QTextCodec *textCodec = QTextCodec::codecForName("UTF-8");
+
         settings.setIniCodec(QTextCodec::codecForName("UTF-8"));
 
         QStringList qslMinutes = {};
@@ -48,6 +54,8 @@ struct fuzzyHelper : public QWidget
 
         QSettings settings("fuzzy.conf", QSettings::IniFormat);
 
+        settings.setIniCodec(QTextCodec::codecForName("UTF-8"));
+
         QStringList qslMinutes = {};
 
         settings.beginGroup(groupName);
@@ -72,4 +80,8 @@ struct fuzzyHelper : public QWidget
         return vectRet;
     }
 
+   void readArrays();
+
+private:
+   fuzzyHelper(){};
 };

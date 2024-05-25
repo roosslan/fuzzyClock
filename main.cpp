@@ -11,11 +11,11 @@ void  SetCSS(QApplication &app);
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    fuzzyClockWindow fWindowCC, fWindowMv, fuzzyWindow;
 
+
+
+    fuzzyClockWindow fWindowCC, fWindowMv;
     fuzzyClockWindow fWindowCA(fWindowCC);
-
-    SetCSS(app);
 
     createFuzzyWindow(fWindowCC); // but not show
     fWindowMv = fWindowCA;
@@ -23,7 +23,10 @@ int main(int argc, char **argv)
     fuzzyClockWindow fWindowMA(std::move(fWindowMv));
 
     // =A(A&&)
+    fuzzyClockWindow fuzzyWindow;
     fuzzyWindow = std::move(fWindowMA);
+
+    SetCSS(app);
 
     fuzzyWindow.show();
 
