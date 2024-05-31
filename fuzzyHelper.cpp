@@ -15,6 +15,7 @@ void fuzzyHelper::readArrays()
 
 //        std::copy(vectMinutes.begin(), vectMinutes.end(), fuzzyMinutes);
 //        std::copy(vectMinuteRefer.begin(), vectMinuteRefer.end(), minuteRefer);
+
 }
 
 std::shared_ptr<fuzzyHelper> fuzzyHelper::instance()

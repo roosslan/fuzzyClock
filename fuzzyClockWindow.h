@@ -34,9 +34,9 @@ public:
 
     ~fuzzyClockWindow();
 
-    /* const A ca;      // A()
-       A b(ca)          // A(const A&)
-       A c = ca;        // A(const A&)  */
+    /* const A ca;          // A()
+       A b(ca)              // A(const A&)
+       A c = ca;            // A(const A&)  */
     fuzzyClockWindow(const fuzzyClockWindow &other);
 
     fuzzyClockWindow& operator=(const fuzzyClockWindow &other);

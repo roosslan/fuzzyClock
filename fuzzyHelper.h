@@ -37,7 +37,7 @@ struct fuzzyHelper // : public QWidget
                 QString line = settings.value(childKey).toString();
                 qslMinutes = line.split('\\');
                 for (int i=0; i <= qslMinutes.size() - 1; i++)
-                    vectRet.push_back(qslMinutes.at(i));                    // except <int>. For int we have specialization
+                    vectRet.push_back(qslMinutes.at(i));                    // except <int>. For int we have a specialization
             };
         }
         settings.endGroup();
@@ -72,7 +72,7 @@ struct fuzzyHelper // : public QWidget
                 QString line = settings.value(childKey).toString();
                 qslMinutes = line.split(' ');
                 for (int i=0; i <= qslMinutes.size() - 1; i++)
-                    vectRet.push_back(qslMinutes.at(i).toInt());            // specialization INT
+                    vectRet.push_back(qslMinutes.at(i).toInt());            // the int specialization
             };
         }
         settings.endGroup();
